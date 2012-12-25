@@ -1,12 +1,16 @@
 #!/bin/bash
 Resolution='480x800'
-SavePath="$HOME"
+SavePath="$(pwd)"
 Pixfmt='rgb32'
 # rgba rbg32
 runninguser=`ps aux|grep adb|grep -v grep|awk '{print $1}'`
 Name=`date +%Y_%m_%d_%T`
 [ -z $runninguser ] && {
-zenity --error --text='adb沒有運行'
+gksudo adb devices
+}
+runninguser=`ps aux|grep adb|grep -v grep|awk '{print $1}'`
+[ -z $runninguser ] && {
+zenity --error --text='Something wrong!adb沒有運行'
 exit
 }
 devExc=`adb devices|tail -n +2`
